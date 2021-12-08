@@ -46,7 +46,7 @@ function Form() {
         data-testid="login-submit-btn"
         disabled={ !(validateInput(email, password)) }
       >
-        Entrar!
+        Entrar
       </button>
       {redirect && <Redirect to="/comidas" /> }
     </form>
