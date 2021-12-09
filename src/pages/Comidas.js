@@ -1,6 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import Header from '../components/Header';
+
+import { useParams } from 'react-router';
+
 import Footer from '../components/Footer';
 
 function Comidas() {
@@ -8,6 +11,8 @@ function Comidas() {
   return (
     <div>
       { !id && <Header />}
+      <Header />
+      comida
       Comidas
       { !id && <Footer />}
     </div>

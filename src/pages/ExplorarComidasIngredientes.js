@@ -7,6 +7,7 @@ function ExplorarComidasIngredientes() {
     <div>
       <Header />
       <h1>Explorar Ingredientes</h1>
+      ExplorarComidasIngredientes
       <Footer />
     </div>
   );
