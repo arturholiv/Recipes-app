@@ -1,15 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import Footer from '../components/Footer';
 
-function Comidas() {
+function ComidasEmProgresso() {
   const { id } = useParams();
   return (
     <div>
-      Comidas
-      { !id && <Footer />}
+      ComidasEmProgresso
+      <h1>{id}</h1>
     </div>
   );
 }
 
-export default Comidas;
+export default ComidasEmProgresso;

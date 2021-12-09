@@ -2,14 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router';
 import Footer from '../components/Footer';
 
-function Comidas() {
+function Bebidas() {
   const { id } = useParams();
   return (
     <div>
-      Comidas
+      Bebidas
       { !id && <Footer />}
     </div>
   );
 }
 
-export default Comidas;
+export default Bebidas;
