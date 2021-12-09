@@ -1,17 +1,17 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
-function Comidas() {
+function Bebidas() {
   const { id } = useParams();
   return (
     <div>
       { !id && <Header />}
-      Comidas
+      Bebidas
       { !id && <Footer />}
     </div>
   );
 }
 
-export default Comidas;
+export default Bebidas;
