@@ -9,7 +9,6 @@ function Bebidas() {
   return (
     <div>
       { !id && <Header />}
-      Bebidas
       { !id && <Footer />}
     </div>
   );

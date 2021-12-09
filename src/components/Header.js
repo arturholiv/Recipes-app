@@ -27,8 +27,12 @@ function Header() {
     if (string.includes('/')) {
       array = string.split('/');
     }
-    if (string.includes('/') && string.includes('-')) {
-      array = string.split('-').slice(1, string.length);
+    if (string.includes('-', '/')) {
+      // array = string.split('-').slice(0, string.length);
+      // const arraySplitting = string.split('-');
+      array = string.split('-').join(' ').slice(1).split(' ');
+      console.log(array.join(' ').slice(1));
+      // array = string.split('-');
     }
 
     array = array.filter((name) => name);

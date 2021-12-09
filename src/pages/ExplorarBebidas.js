@@ -6,8 +6,6 @@ function ExplorarBebidas() {
   return (
     <div>
       <Header />
-      <h1>Explorar Bebidas</h1>
-      ExplorarBebidas
       <Footer />
     </div>
   );

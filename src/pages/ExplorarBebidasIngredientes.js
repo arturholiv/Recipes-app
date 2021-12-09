@@ -6,8 +6,6 @@ function ExplorarBebidasIngredientes() {
   return (
     <div>
       <Header />
-      <h1>Explorar Ingredientes</h1>
-      ExplorarBebidasIngredientes
       <Footer />
     </div>
   );

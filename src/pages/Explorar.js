@@ -6,7 +6,6 @@ function Explorar() {
   return (
     <div>
       <Header />
-      Explorar
       <Footer />
     </div>
   );

@@ -5,7 +5,6 @@ function ReceitasFavoritas() {
   return (
     <div>
       <Header />
-      ReceitasFavoritas
     </div>
   );
 }
