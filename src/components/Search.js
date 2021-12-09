@@ -20,8 +20,6 @@ function Search() {
       .then((results) => setResult({ results, loading: false }));
   };
 
-  console.log(result);
-
   return (
     <form onSubmit={ (event) => handleSearch(event) }>
       <label htmlFor="search-input">
