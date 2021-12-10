@@ -1,6 +1,14 @@
 const ENDPOINT = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 const CATEGORIES_ENDPOINT = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-export async function requestCocktailDbApi() {
+const DRINKS_BY_CATEGORY = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+
+export async function requestCocktailDbApi(category) {
+  if (category) {
+    const request = await fetch(`${DRINKS_BY_CATEGORY}${category}`);
+    const requestJson = await request.json();
+    const { drinks } = requestJson;
+    return drinks;
+  }
   const request = await fetch(ENDPOINT);
   const requestJson = request.json();
   const { drinks } = await requestJson;
