@@ -1,7 +1,7 @@
 const requestSearchApi = async (searchParams, currentPage) => {
   const { inputValue, ingredient, name, firstLetter } = searchParams;
   let searchMethod = { type: '', letter: '' };
-  currentPage = currentPage === '/comidas' ? 'themealdb' : 'thecocktaildb';
+  currentPage = currentPage.includes('comidas') ? 'themealdb' : 'thecocktaildb';
 
   searchMethod = ingredient ? { type: 'filter', letter: 'i' } : searchMethod;
   searchMethod = name ? { type: 'search', letter: 's' } : searchMethod;
@@ -14,7 +14,8 @@ const requestSearchApi = async (searchParams, currentPage) => {
   try {
     const result = await fetch(URL)
       .then((response) => response.json()).then((resolve) => resolve);
-    return result;
+    const key = currentPage === 'themealdb' ? 'meals' : 'drinks';
+    return result[key];
   } catch (err) {
     global.alert('Sua busca deve conter somente 1 (um) caracter');
     return err;

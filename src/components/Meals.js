@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AppContext from '../context/AppContext';
 import { requestMealDbApi, requestMealCategory } from '../services/TheMealDbApi';
 import CategoryButton from './CategoryButton';
 import MealCard from './MealCard';
@@ -10,6 +11,8 @@ function Meals() {
   const [meals, setMeals] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const { searchRecipes } = useContext(AppContext);
+
   useEffect(() => {
     async function getMeals() {
       const mealsResult = await requestMealDbApi();
@@ -19,6 +22,12 @@ function Meals() {
     }
     getMeals();
   }, []);
+
+  useEffect(() => {
+    if (searchRecipes.length > 0) {
+      setMeals(searchRecipes);
+    }
+  }, [searchRecipes]);
 
   return (
     <div>

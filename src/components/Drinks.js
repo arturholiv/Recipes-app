@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { requestCocktailDbApi, requestDrinkCategory } from '../services/TheCockTailDbApi';
 import DrinkCard from './DrinkCard';
 import CategoryButton from './CategoryButton';
+import AppContext from '../context/AppContext';
 
 function Drinks() {
   const MAX_MEALS_RENDER = 12;
   const MAX_CATEGORIES = 5;
+
+  const { searchRecipes } = useContext(AppContext);
 
   const [drinks, setDrinks] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -19,6 +22,12 @@ function Drinks() {
     }
     getDrinks();
   }, []);
+
+  useEffect(() => {
+    if (searchRecipes.length > 0) {
+      setDrinks(searchRecipes);
+    }
+  }, [searchRecipes]);
 
   return (
     <div>

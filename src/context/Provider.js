@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
+  const [searchRecipes, setSearchRecipes] = useState([]);
   const contextValue = {
-
+    setSearchRecipes,
+    searchRecipes,
   };
 
   return (

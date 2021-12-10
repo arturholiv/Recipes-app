@@ -6,7 +6,6 @@ function DrinkCard({ drink, index }) {
   const { strDrinkThumb, strDrink, idDrink } = drink;
   const history = useHistory();
   const link = `/bebidas/${idDrink}`;
-  console.log(drink);
   return (
     <button
       type="button"
