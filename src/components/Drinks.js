@@ -23,13 +23,20 @@ function Drinks() {
   return (
     <div>
       <div>
-        {categories.slice(0, MAX_CATEGORIES).map((category, index) => (
+        {categories.slice(0, MAX_CATEGORIES).map((category) => (
           <CategoryButton
             key={ category.strCategory }
             category={ category.strCategory }
-            index={ index }
+            name="drinks"
+            setDrinks={ setDrinks }
           />
         ))}
+        <CategoryButton
+          key="All"
+          category="All"
+          name="all"
+          setDrinks={ setDrinks }
+        />
       </div>
       {drinks.slice(0, MAX_MEALS_RENDER).map((drink, index) => (
         <DrinkCard
