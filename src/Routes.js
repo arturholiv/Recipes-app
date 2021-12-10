@@ -12,6 +12,8 @@ export default function Routes() {
         <Route exact path="/" component={ Login } />
         <Route exact path="/comidas" component={ Comidas } />
         <Route exact path="/bebidas" component={ Bebidas } />
+        <Route exact path="/comidas/:id" component={ Comidas } />
+        <Route exact path="/bebidas/:id" component={ Bebidas } />
       </Switch>
     </BrowserRouter>
   );
