@@ -29,8 +29,15 @@ function Meals() {
             category={ category.strCategory }
             index={ index }
             setMeals={ setMeals }
+            name="meals"
           />
         ))}
+        <CategoryButton
+          key="All"
+          category="All"
+          name="all"
+          setMeals={ setMeals }
+        />
       </div>
       {meals.slice(0, MAX_MEALS_RENDER).map((meal, index) => (
         <MealCard
@@ -38,6 +45,7 @@ function Meals() {
           meal={ meal }
           index={ index }
         />))}
+
     </div>
   );
 }
