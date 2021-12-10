@@ -1,6 +1,6 @@
 import React from 'react';
-import Drinks from '../components/Drinks';
 import { useParams } from 'react-router';
+import Drinks from '../components/Drinks';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
@@ -9,7 +9,7 @@ function Bebidas() {
   return (
     <div>
       { !id && <Header />}
-     <Drinks />
+      <Drinks />
       { !id && <Footer />}
     </div>
   );
