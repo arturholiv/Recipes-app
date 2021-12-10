@@ -28,17 +28,13 @@ function Header() {
       array = string.split('/');
     }
     if (string.includes('-', '/')) {
-      // array = string.split('-').slice(0, string.length);
-      // const arraySplitting = string.split('-');
       array = string.split('-').join(' ').slice(1).split(' ');
-      console.log(array.join(' ').slice(1));
-      // array = string.split('-');
     }
 
     array = array.filter((name) => name);
     array = [array[0], array[array.length - 1]].map((elem) => capitalize(elem));
 
-    const final = array.join(' ');
+    const final = [...new Set(array)].join(' ');
 
     return final.includes('Area') ? final.replace('Area', 'Origem') : final;
   };

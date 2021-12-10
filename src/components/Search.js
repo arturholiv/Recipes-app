@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import AppContext from '../context/AppContext';
 import requestSearchApi from '../services/requestSearchApi';
 
 function Search() {
   const [inputValue, setInputValue] = useState('');
-
   const [ingredient, setIngredient] = useState(false);
   const [name, setName] = useState(false);
   const [firstLetter, setFirstLetter] = useState(false);
 
-  const [result, setResult] = useState({ results: [], loading: false });
+  const { setSearchRecipes } = useContext(AppContext);
 
   const location = useLocation();
 
   const handleSearch = (event) => {
     event.preventDefault();
-    setResult({ results: [], loading: true });
     requestSearchApi({ inputValue, ingredient, name, firstLetter }, location.pathname)
-      .then((results) => setResult({ results, loading: false }));
+      .then((results) => {
+        if (results !== null) {
+          return setSearchRecipes(results);
+        }
+        setSearchRecipes([]);
+      });
   };
 
   return (
