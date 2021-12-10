@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Redirect } from 'react-router';
 import AppContext from '../context/AppContext';
 import { requestMealDbApi, requestMealCategory } from '../services/TheMealDbApi';
 import CategoryButton from './CategoryButton';
@@ -12,6 +13,8 @@ function Meals() {
   const [categories, setCategories] = useState([]);
 
   const { searchRecipes } = useContext(AppContext);
+
+  // const [verify, setVerify] = useState(false);
 
   useEffect(() => {
     async function getMeals() {
@@ -27,6 +30,10 @@ function Meals() {
     if (searchRecipes.length > 0) {
       setMeals(searchRecipes);
     }
+    // if (meals.length === 0 && verify) {
+    //   global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+    //   console.log(meals);
+    // }
   }, [searchRecipes]);
 
   return (
@@ -48,13 +55,14 @@ function Meals() {
           setMeals={ setMeals }
         />
       </div>
-      {meals.slice(0, MAX_MEALS_RENDER).map((meal, index) => (
+      {meals && meals.slice(0, MAX_MEALS_RENDER).map((meal, index) => (
         <MealCard
           key={ meal.strMeal }
           meal={ meal }
           index={ index }
         />))}
-
+      { (searchRecipes.length === 1)
+        && <Redirect to={ `comidas/${searchRecipes[0].idMeal}` } /> }
     </div>
   );
 }

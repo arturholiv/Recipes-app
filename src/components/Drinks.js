@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Redirect } from 'react-router';
 import { requestCocktailDbApi, requestDrinkCategory } from '../services/TheCockTailDbApi';
 import DrinkCard from './DrinkCard';
 import CategoryButton from './CategoryButton';
@@ -53,6 +54,8 @@ function Drinks() {
           drink={ drink }
           index={ index }
         />))}
+      { (searchRecipes.length === 1)
+        && <Redirect to={ `bebidas/${searchRecipes[0].idDrink}` } /> }
     </div>
   );
 }
