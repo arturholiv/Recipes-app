@@ -5,7 +5,6 @@ function ComidasEmProgresso() {
   const { id } = useParams();
   return (
     <div>
-      ComidasEmProgresso
       <h1>{id}</h1>
     </div>
   );
