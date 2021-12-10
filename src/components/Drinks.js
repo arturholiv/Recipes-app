@@ -11,7 +11,7 @@ function Drinks() {
 
   const { searchRecipes } = useContext(AppContext);
 
-  const [drinks, setDrinks] = useState([]);
+  const [drinks, setDrinks] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -27,6 +27,9 @@ function Drinks() {
   useEffect(() => {
     if (searchRecipes.length > 0) {
       setDrinks(searchRecipes);
+    }
+    if (drinks) {
+      global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
     }
   }, [searchRecipes]);
 
@@ -48,7 +51,7 @@ function Drinks() {
           setDrinks={ setDrinks }
         />
       </div>
-      {drinks.slice(0, MAX_MEALS_RENDER).map((drink, index) => (
+      {drinks && drinks.slice(0, MAX_MEALS_RENDER).map((drink, index) => (
         <DrinkCard
           key={ drink.strMeal }
           drink={ drink }

@@ -5,7 +5,6 @@ import requestSearchApi from '../services/requestSearchApi';
 
 function Search() {
   const [inputValue, setInputValue] = useState('');
-
   const [ingredient, setIngredient] = useState(false);
   const [name, setName] = useState(false);
   const [firstLetter, setFirstLetter] = useState(false);
@@ -17,7 +16,12 @@ function Search() {
   const handleSearch = (event) => {
     event.preventDefault();
     requestSearchApi({ inputValue, ingredient, name, firstLetter }, location.pathname)
-      .then((results) => setSearchRecipes(results));
+      .then((results) => {
+        if (results !== null) {
+          return setSearchRecipes(results);
+        }
+        setSearchRecipes([]);
+      });
   };
 
   return (

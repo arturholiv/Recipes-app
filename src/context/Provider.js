@@ -5,8 +5,8 @@ import AppContext from './AppContext';
 function Provider({ children }) {
   const [searchRecipes, setSearchRecipes] = useState([]);
   const contextValue = {
-    setSearchRecipes,
     searchRecipes,
+    setSearchRecipes,
   };
 
   return (

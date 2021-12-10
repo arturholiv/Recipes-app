@@ -9,12 +9,10 @@ function Meals() {
   const MAX_MEALS_RENDER = 12;
   const MAX_CATEGORIES = 5;
 
-  const [meals, setMeals] = useState([]);
+  const [meals, setMeals] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const { searchRecipes } = useContext(AppContext);
-
-  // const [verify, setVerify] = useState(false);
 
   useEffect(() => {
     async function getMeals() {
@@ -30,10 +28,9 @@ function Meals() {
     if (searchRecipes.length > 0) {
       setMeals(searchRecipes);
     }
-    // if (meals.length === 0 && verify) {
-    //   global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
-    //   console.log(meals);
-    // }
+    if (meals) {
+      global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+    }
   }, [searchRecipes]);
 
   return (
@@ -60,7 +57,7 @@ function Meals() {
           key={ meal.strMeal }
           meal={ meal }
           index={ index }
-        />))}
+        />)) }
       { (searchRecipes.length === 1)
         && <Redirect to={ `comidas/${searchRecipes[0].idMeal}` } /> }
     </div>
