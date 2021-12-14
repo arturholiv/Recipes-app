@@ -4,9 +4,22 @@ import AppContext from './AppContext';
 
 function Provider({ children }) {
   const [searchRecipes, setSearchRecipes] = useState([]);
+  const [mealProgress, setMealProgress] = useState([]);
+  const [currentMealId, setCurrentMealId] = useState();
+  const [drinkProgress, setdrinkProgress] = useState([]);
+  const [btnFinalizeRecipe, setBtnFinalizeRecipe] = useState(true);
+
   const contextValue = {
     searchRecipes,
     setSearchRecipes,
+    mealProgress,
+    setMealProgress,
+    drinkProgress,
+    setdrinkProgress,
+    currentMealId,
+    setCurrentMealId,
+    btnFinalizeRecipe,
+    setBtnFinalizeRecipe,
   };
 
   return (
