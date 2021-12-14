@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import requestSearchApi from '../services/requestSearchApi';
 
 function ExplorarBebidasIngredientes() {
-  const MAX_MEALS_RENDER = 12;
+  const MAX_DRINKS_RENDER = 12;
 
   const location = useLocation();
 
@@ -45,7 +45,7 @@ function ExplorarBebidasIngredientes() {
     <div>
       <Header />
       {
-        render && ingredients.slice(0, MAX_MEALS_RENDER).map((ingredient, index) => (
+        render && ingredients.slice(0, MAX_DRINKS_RENDER).map((ingredient, index) => (
           <button
             type="button"
             name={ ingredient.strIngredient1 }
