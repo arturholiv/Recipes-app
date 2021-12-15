@@ -7,20 +7,12 @@ import Header from '../components/Header';
 function ExplorarComidaArea() {
   const MAX_MEALS_RENDER = 12;
 
-  const [renderNotFound, setRenderNotFound] = useState(false);
   const [areas, setAreas] = useState([]);
   const [renderAreas, setRenderAreas] = useState(false);
   const [meals, setMeals] = useState([]);
   const [renderMeals, setRenderMeals] = useState(false);
 
   const history = useHistory();
-
-  const showNotFound = () => {
-    const verifyUSer = localStorage.getItem('user');
-    if (verifyUSer === null) {
-      setRenderNotFound(true);
-    }
-  };
 
   const getListOfAreas = async () => {
     const areasList = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
@@ -44,7 +36,6 @@ function ExplorarComidaArea() {
   };
 
   useEffect(() => {
-    showNotFound();
     getListOfAreas();
     getMealsByFirstArea();
   }, []);
@@ -91,7 +82,6 @@ function ExplorarComidaArea() {
           </button>
         ))
       }
-      {renderNotFound && <h1>Not Found</h1>}
       <Footer />
 
     </div>
