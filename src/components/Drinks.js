@@ -6,7 +6,7 @@ import CategoryButton from './CategoryButton';
 import AppContext from '../context/AppContext';
 
 function Drinks() {
-  const MAX_MEALS_RENDER = 12;
+  const MAX_DRINKS_RENDER = 12;
   const MAX_CATEGORIES = 5;
 
   const { searchRecipes } = useContext(AppContext);
@@ -51,7 +51,7 @@ function Drinks() {
           setDrinks={ setDrinks }
         />
       </div>
-      {drinks && drinks.slice(0, MAX_MEALS_RENDER).map((drink, index) => (
+      {drinks && drinks.slice(0, MAX_DRINKS_RENDER).map((drink, index) => (
         <DrinkCard
           key={ drink.strMeal }
           drink={ drink }
