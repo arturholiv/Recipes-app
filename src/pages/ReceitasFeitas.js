@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+
 import Header from '../components/Header';
+import shareIcon from '../images/shareIcon.svg';
 
 function ReceitasFeitas() {
   const [filter, setFilter] = useState('All');
-  const simulaReceitas = {
-    drinks: [{
-      strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
-      strCategory: 'Ordinary Drink',
-      strDrink: 'Margarita',
-      dateModified: '2015-08-18 14:42:59',
-      strTags: 'IBA,ContemporaryClassic',
-      doneDate: '2015-08-18',
-    }],
-    meals: [{
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-      strCategory: 'Vegetarian',
-      strMeal: 'Spicy Arrabiata Penne',
-      dateModified: null,
-      strTags: 'IBA,ContemporaryClassic',
-      doneDate: '2015-08-18',
-    }],
-  };
+  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [clipBoard, SetClipBoard] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+
+  const [currentType, setCurrentType] = useState('');
+  const [currentId, setCurrentId] = useState('');
+
+  useEffect(() => {
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneRecipes(doneRecipesStorage);
+  }, []);
 
   const handleChangeFilter = (event) => {
     const { target } = event;
@@ -28,20 +24,37 @@ function ReceitasFeitas() {
     setFilter(target.innerText);
   };
 
-  const fillter = (currentFilter) => {
+  const history = useHistory();
+
+  const recipeWithFilter = (currentFilter) => {
     switch (currentFilter) {
     case 'Food':
-      return simulaReceitas.meals;
+      return doneRecipes.filter((element) => element.type === 'comida');
     case 'Drinks':
-      return simulaReceitas.drinks;
-    case 'All':
-      return [...simulaReceitas.meals, ...simulaReceitas.drinks];
+      return doneRecipes.filter((element) => element.type === 'bebida');
     default:
-      return currentFilter;
+      return doneRecipes;
     }
   };
 
-  const getIndex = (element) => fillter(filter).indexOf(element);
+  const handleCopyClipboard = (event) => {
+    event.preventDefault();
+    let name;
+    if (event.target.name) {
+      name = event.target.name;
+    } else {
+      name = event.target.parentNode.name;
+    }
+    name = name.split(',');
+    SetClipBoard(true);
+    navigator.clipboard.writeText(`http://localhost:3000/${`${name[0]}s`}/${name[1]}`);
+  };
+
+  const getIndex = (element) => recipeWithFilter(filter).indexOf(element);
+
+  const getType = (type) => {
+    setCurrentType(type === 'comida' ? 'comidas' : 'bebidas');
+  };
 
   return (
     <div>
@@ -68,24 +81,38 @@ function ReceitasFeitas() {
         >
           Drinks
         </button>
-        {filter
-          && fillter(filter).map((curr) => (
-            <div key={ curr.strDrink }>
-              <img
-                src={ curr.strMealThumb || curr.strDrinkThumb }
-                alt={ curr.strDrink || curr.strMeal }
-                data-testid={ `${getIndex(curr)}-horizontal-image` }
-              />
+        {recipeWithFilter(filter)
+          && recipeWithFilter(filter).map((curr) => (
+            <div key={ curr.id }>
+              <button
+                type="button"
+                onClick={ () => {
+                  getType(curr.type);
+                  setCurrentId(curr.id);
+                  setRedirect(true);
+                } }
+              >
+                <img
+                  src={ curr.image }
+                  alt={ curr.name }
+                  data-testid={ `${getIndex(curr)}-horizontal-image` }
+                  id={ curr.name }
+                  style={ { width: '25vw' } }
+                />
+              </button>
+              {redirect && history.push(`/${currentType}/${currentId}`)}
               <p
                 data-testid={ `${getIndex(curr)}-horizontal-top-text` }
               >
-                {curr.strCategory}
+                {`${curr.area || curr.alcoholicOrNot} - ${curr.category}`}
               </p>
-              <p
-                data-testid={ `${getIndex(curr)}-horizontal-name` }
-              >
-                {curr.strDrink || curr.strMeal}
-              </p>
+              <Link to={ `${curr.type}s/${curr.id}` }>
+                <p
+                  data-testid={ `${getIndex(curr)}-horizontal-name` }
+                >
+                  {curr.name}
+                </p>
+              </Link>
               <span
                 data-testid={ `${getIndex(curr)}-horizontal-done-date` }
               >
@@ -94,14 +121,22 @@ function ReceitasFeitas() {
               <button
                 type="submit"
                 data-testid={ `${getIndex(curr)}-horizontal-share-btn` }
+                src="../images/shareIcon.svg"
+                onClick={ (event) => handleCopyClipboard(event) }
+                name={ `${curr.type},${curr.id}` }
               >
-                share
+                <img src={ shareIcon } alt="share Icon" />
+                {clipBoard && <p>Link copiado!</p>}
               </button>
-              <p
-                data-testid={ `${getIndex(curr)}-${curr.strTags}-horizontal-tag` }
-              >
-                {curr.strTags}
-              </p>
+              <div>
+                {curr.tags.slice(0, 2).map((tag) => (
+                  <p
+                    key={ `${tag}-${curr.id}` }
+                    data-testid={ `${getIndex(curr)}-${tag}-horizontal-tag` }
+                  >
+                    {tag}
+                  </p>)) }
+              </div>
             </div>))}
       </form>
     </div>
