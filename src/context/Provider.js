@@ -8,6 +8,12 @@ function Provider({ children }) {
   const [currentMealId, setCurrentMealId] = useState();
   const [drinkProgress, setdrinkProgress] = useState([]);
   const [btnFinalizeRecipe, setBtnFinalizeRecipe] = useState(true);
+  const [doneRecipes, setDoneRecipes] = useState([{ teste: '11111' }]);
+
+  function incrementDoneRecipes(recipe) {
+    setDoneRecipes([...doneRecipes, recipe]);
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+  }
 
   const contextValue = {
     searchRecipes,
@@ -20,6 +26,8 @@ function Provider({ children }) {
     setCurrentMealId,
     btnFinalizeRecipe,
     setBtnFinalizeRecipe,
+    incrementDoneRecipes,
+    doneRecipes,
   };
 
   return (

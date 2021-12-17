@@ -19,6 +19,7 @@ import DetalhesComidas from './pages/DetalhesComidas';
 import DetalhesBebidas from './pages/DetalhesBebidas';
 import NotFound from './pages/NotFound';
 
+
 export default function Routes() {
   return (
     <BrowserRouter>
