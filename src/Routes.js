@@ -15,6 +15,8 @@ import ExplorarBebidas from './pages/ExplorarBebidas';
 import ExplorarComidasIngredientes from './pages/ExplorarComidasIngredientes';
 import ExplorarBebidasIngredientes from './pages/ExplorarBebidasIngredientes';
 import ExplorarComidaArea from './pages/ExplorarComidaArea';
+import DetalhesComidas from './pages/DetalhesComidas';
+import DetalhesBebidas from './pages/DetalhesBebidas';
 
 export default function Routes() {
   return (
@@ -23,8 +25,8 @@ export default function Routes() {
         <Route exact path="/" component={ Login } />
         <Route exact path="/comidas" component={ Comidas } />
         <Route exact path="/bebidas" component={ Bebidas } />
-        <Route exact path="/comidas/:id" component={ Comidas } />
-        <Route exact path="/bebidas/:id" component={ Bebidas } />
+        <Route exact path="/comidas/:id" component={ DetalhesComidas } />
+        <Route exact path="/bebidas/:id" component={ DetalhesBebidas } />
         <Route exact path="/comidas/:id/in-progress" component={ ComidasEmProgresso } />
         <Route exact path="/bebidas/:id/in-progress" component={ BebidasEmProgresso } />
         <Route exact path="/explorar" component={ Explorar } />
