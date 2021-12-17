@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { requestMealById } from '../services/TheMealDbApi';
 import RecipeDetails from '../components/RecipeDetails';
+// import MealCard from '../components/MealCard';
 
 export default function DetalhesComidas() {
   const { id } = useParams();
@@ -17,11 +18,30 @@ export default function DetalhesComidas() {
     const getMealsDetails = async () => {
       const detailsResult = await requestMealById(id);
       setDetails(detailsResult[0]);
-      console.log(detailsResult[0]);
     };
     getMealsDetails();
   }, [id]);
 
+  // const MAX_MEALS_RENDER = 6;
+
+  // const [meals, setMeals] = useState(false);
+
+  // useEffect(() => {
+  //   async function getMeals() {
+  //     const mealsResult = await requestMealDbApi();
+  //     setMeals(mealsResult);
+  //   }
+  //   getMeals();
+  // }, []);
+
+  // function setRecomendations() {
+  //   return meals.slice(0, MAX_MEALS_RENDER).map((meal, index) => (
+  //     <MealCard
+  //       data-testid={ `${index}-recomendation-card` }
+  //       key={ meal.strMeal }
+  //       meal={ meal }
+  //     />));
+  // }
   function getIngredients() {
     const mealObj = details;
     const ingredientsKeys = [];
@@ -60,7 +80,6 @@ export default function DetalhesComidas() {
     if (details && numberOfIngredients > 0) {
       const array = Object.values(getIngredients());
       const ingredientsArray = array.filter((el) => Boolean(el));
-      console.log(ingredientsArray);
       return (
         ingredientsArray.map((ingredient) => ingredient)
       );
@@ -71,7 +90,6 @@ export default function DetalhesComidas() {
     if (details && numberOfIngredients > 0) {
       const array = Object.values(getMeasures());
       const measuresArray = array.filter((el) => Boolean(el));
-      console.log(measuresArray);
       return (
         measuresArray.map((measure) => measure));
     }
@@ -80,7 +98,7 @@ export default function DetalhesComidas() {
   return (
     <div>
       <RecipeDetails
-        recipeIndex={ 0 }
+        id={ id }
         photo={ details.strMealThumb }
         title={ details.strMeal }
         recipeCategory={ details.strCategory }

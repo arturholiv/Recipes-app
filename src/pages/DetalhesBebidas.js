@@ -14,7 +14,6 @@ export default function DetalhesBebidas() {
     const getDrinksDetails = async () => {
       const detailsResult = await requestDrinkById(id);
       setDetails(detailsResult[0]);
-      console.log(detailsResult[0]);
     };
     getDrinksDetails();
   }, [id]);
@@ -57,7 +56,6 @@ export default function DetalhesBebidas() {
     if (details && numberOfIngredients > 0) {
       const array = Object.values(getIngredients());
       const ingredientsArray = array.filter((el) => !!el);
-      console.log(ingredientsArray);
       return (
         ingredientsArray.map((ingredient) => ingredient)
       );
@@ -68,7 +66,6 @@ export default function DetalhesBebidas() {
     if (details && numberOfIngredients > 0) {
       const array = Object.values(getMeasures());
       const measuresArray = array.filter((el) => !!el);
-      console.log(measuresArray);
       return (
         measuresArray.map((measure) => measure));
     }
@@ -77,6 +74,7 @@ export default function DetalhesBebidas() {
   return (
     <div>
       <RecipeDetails
+        id={ id }
         photo={ details.strDrinkThumb }
         title={ details.strDrink }
         recipeCategory={ details.strAlcoholic }
