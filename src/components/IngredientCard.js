@@ -7,8 +7,8 @@ function IngredienteCard({ ingrediente, index, type, numberOfIngredients }) {
   const [isChecked, setIsChecked] = useState(false);
   const { mealProgress,
     setMealProgress,
-    drinkProgress,
-    setdrinkProgress,
+    // drinkProgress,
+    // setdrinkProgress,
     setBtnFinalizeRecipe,
   } = useContext(AppContext);
 
@@ -34,6 +34,7 @@ function IngredienteCard({ ingrediente, index, type, numberOfIngredients }) {
   }
 
   function handleClick({ target: { name } }) {
+    console.log(name);
     if (risked === 'line-through') {
       setRisked('none');
     }
@@ -76,6 +77,8 @@ function IngredienteCard({ ingrediente, index, type, numberOfIngredients }) {
 IngredienteCard.propTypes = {
   index: PropTypes.number.isRequired,
   ingrediente: PropTypes.string.isRequired,
+  numberOfIngredients: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default IngredienteCard;

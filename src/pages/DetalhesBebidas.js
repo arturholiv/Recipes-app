@@ -86,3 +86,25 @@ export default function DetalhesBebidas() {
     </div>
   );
 }
+  useEffect(() => {
+    const getDrinksDetails = async () => {
+      const detailsResult = await requestDrinkById(id);
+      setDetails(detailsResult);
+      return details;
+    };
+    getDrinksDetails();
+  }, []);
+
+  return (
+    <div>
+      <h1>
+        {' '}
+        este eh o id
+        {' '}
+        {id}
+      </h1>
+      <h1>to aq nas Bebidas</h1>
+    </div>
+  );
+}
+
