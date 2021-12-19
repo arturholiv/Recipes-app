@@ -82,13 +82,13 @@ function DrinkInProgress({ drinkInProgress }) {
           incrementDoneRecipes({
             id: idDrink,
             type: 'cocktail',
-            area: strArea,
-            category: strCategory,
-            alcoholicOrNot: strAlcoholic,
+            area: strArea || '',
+            category: strCategory || '',
+            alcoholicOrNot: strAlcoholic || '',
             name: strDrink,
             image: strDrinkThumb,
             doneDate: data,
-            tags: strTags,
+            tags: strTags || [],
           });
           history.push('/receitas-feitas');
         } }

@@ -77,13 +77,13 @@ function MealInProgress({ mealInProgress }) {
           incrementDoneRecipes({
             id: idMeal,
             type: 'meal',
-            area: strArea,
-            category: strCategory,
+            area: strArea || '',
+            category: strCategory || '',
             alcoholicOrNot: '',
             name: strMeal,
             image: strMealThumb,
             doneDate: data,
-            tags: strTags,
+            tags: strTags || '',
           });
           history.push('/receitas-feitas');
         } }

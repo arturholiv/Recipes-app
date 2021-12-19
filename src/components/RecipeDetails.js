@@ -95,8 +95,8 @@ function RecipeDetails({
 
   function handleClick() {
     updateProgress('', type);
-    return video ? history.push(`/comidas/${id}/in-progress`)
-      : history.push(`/bebidas/${id}/in-progress`);
+    return (video ? history.push(`/comidas/${id}/in-progress`)
+      : history.push(`/bebidas/${id}/in-progress`));
   }
 
   function renderButton() {

@@ -16,7 +16,7 @@ function Provider({ children }) {
       id: [],
     },
   });
-  const [doneRecipes, setDoneRecipes] = useState([{ id: '11111' }]);
+  const [doneRecipes, setDoneRecipes] = useState([]);
 
   function updateRecipeInProgress(recipe, type) {
     if (type === 'cocktails') {
