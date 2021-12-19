@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import Search from './Search';
@@ -9,6 +9,7 @@ import Search from './Search';
 function Header() {
   const [toggleSearch, setToggleSearch] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const history = useHistory();
 
   const [showInput, setShowInput] = useState(true);
 
@@ -79,7 +80,7 @@ function Header() {
         </button>
       )}
       {toggleSearch && <Search />}
-      {redirect && <Redirect to="/perfil" />}
+      {redirect && history.push('/perfil') }
     </header>
   );
 }
