@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -15,7 +14,9 @@ function ReceitasFeitas() {
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
-    setDoneRecipes(doneRecipesStorage);
+    if (doneRecipesStorage) {
+      setDoneRecipes(doneRecipesStorage);
+    }
   }, []);
 
   const handleChangeFilter = (event) => {
@@ -141,6 +142,9 @@ function ReceitasFeitas() {
       </form>
     </div>
   );
+  // return (
+  //   <h1>Recipes</h1>
+  // );
 }
 
 export default ReceitasFeitas;

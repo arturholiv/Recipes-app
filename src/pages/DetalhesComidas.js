@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { requestMealById } from '../services/TheMealDbApi';
 import RecipeDetails from '../components/RecipeDetails';
+// import MealCard from '../components/MealCard';
 
 export default function DetalhesComidas() {
   const { id } = useParams();
@@ -12,7 +13,6 @@ export default function DetalhesComidas() {
 
   const [details, setDetails] = useState([]);
   // const [numberOfIngredients, setNumberOfIngredients] = useState([]);
-
 
   useEffect(() => {
     const getMealsDetails = async () => {
@@ -106,28 +106,8 @@ export default function DetalhesComidas() {
         measures={ renderMeasures() }
         instructions={ details.strInstructions }
         video={ details.strYoutube }
+        type="meals"
       />
-    </div>
-  );
-}
-      setDetails(detailsResult);
-      console.log(detailsResult);
-      return details;
-    };
-    getMealsDetails();
-  }, []);
-
-  return (
-    <div>
-      <div>
-        <h1>
-          {id}
-        </h1>
-        <h1>to aq nas comidas</h1>
-      </div>
-      <div>
-        {/* <img src="" alt=""> */}
-      </div>
     </div>
   );
 }

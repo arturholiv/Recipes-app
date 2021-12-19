@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router';
 import DrinkInProgress from '../components/DrinkInProgress';
 import { requestDrinkById } from '../services/TheCockTailDbApi';
+import AppContext from '../context/AppContext';
 
 function BebidasEmProgresso() {
   const [drinkInProgress, setDrinkInProgress] = useState(false);
-  const ID = 11007;
+  const { setCurrentDrinkId } = useContext(AppContext);
+  const { id } = useParams();
   useEffect(() => {
     async function getApi() {
-      const response = await requestDrinkById(ID);
+      const response = await requestDrinkById(id);
       setDrinkInProgress(response);
+      setCurrentDrinkId(id);
       console.log(response);
     }
     getApi();
   }, []);
-  // const { id } = useParams();
   return (
     <div>
       {/* <h1>{id}</h1> */}

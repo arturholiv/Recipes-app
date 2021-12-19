@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import IngredienteCard from './IngredientCard';
 
-function IngredientsMealInProgress({ meal, numberOfIngredients, id }) {
+function IngredientsMealInProgress({ meal, numberOfIngredients }) {
   function getIngredients() {
     const mealObj = meal[0];
     const ingredientsKeys = [];
@@ -32,8 +32,8 @@ function IngredientsMealInProgress({ meal, numberOfIngredients, id }) {
                 ingrediente={ ingredient }
                 index={ index }
                 type="meals"
-                id={ id }
                 numberOfIngredients={ ingredientsArray.length }
+                id={ meal[0].idMeal }
               />
             );
           }
@@ -84,7 +84,6 @@ function IngredientsMealInProgress({ meal, numberOfIngredients, id }) {
 }
 
 IngredientsMealInProgress.propTypes = {
-  id: PropTypes.number.isRequired,
   meal: PropTypes.arrayOf(PropTypes.any).isRequired,
   numberOfIngredients: PropTypes.number.isRequired,
 };

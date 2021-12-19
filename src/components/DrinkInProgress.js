@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import IngredientsDrinkInProgress from './IngredientsDrinkInProgress';
+import AppContext from '../context/AppContext';
 
 function DrinkInProgress({ drinkInProgress }) {
+  console.log(drinkInProgress);
   const [numberOfIngredients, setNumberOfIngredients] = useState(0);
+  const { btnFinalizeRecipe, incrementDoneRecipes } = useContext(AppContext);
   const history = useHistory();
   useEffect(() => {
     if (drinkInProgress) {
@@ -27,7 +30,7 @@ function DrinkInProgress({ drinkInProgress }) {
 
           <button
             type="button"
-            testid="favorite-btn"
+            data-testid="favorite-btn"
           >
             Favoritar Receita
           </button>
@@ -63,7 +66,33 @@ function DrinkInProgress({ drinkInProgress }) {
       </p>
       <button
         type="button"
-        onClick={ () => history.push('/receitas-feitas') }
+        id="finalize"
+        disabled={ btnFinalizeRecipe }
+        onClick={ () => {
+          const {
+            idDrink,
+            strDrinkThumb,
+            strDrink,
+            strArea,
+            strCategory,
+            strTags,
+            strAlcoholic,
+          } = drinkInProgress[0];
+          const data = Date();
+          incrementDoneRecipes({
+            id: idDrink,
+            type: 'cocktail',
+            area: strArea,
+            category: strCategory,
+            alcoholicOrNot: strAlcoholic,
+            name: strDrink,
+            image: strDrinkThumb,
+            doneDate: data,
+            tags: strTags,
+          });
+          history.push('/receitas-feitas');
+        } }
+        data-testid="finish-recipe-btn"
       >
         Finalizar Receita
       </button>

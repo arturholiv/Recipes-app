@@ -25,7 +25,8 @@ function IngredientsDrinkInProgress({ drink, numberOfIngredients }) {
 
   function renderIngredients() {
     if (drink && numberOfIngredients > 0) {
-      const ingredientsArray = Object.values(getIngredients());
+      const array = Object.values(getIngredients());
+      const ingredientsArray = array.filter((el) => Boolean(el));
       return (
         ingredientsArray.map((ingredient, index) => {
           if (ingredient) {
@@ -34,6 +35,8 @@ function IngredientsDrinkInProgress({ drink, numberOfIngredients }) {
                 ingrediente={ ingredient }
                 index={ index }
                 type="cocktails"
+                numberOfIngredients={ ingredientsArray.length }
+                id={ drink[0].idDrink }
               />
             );
           }

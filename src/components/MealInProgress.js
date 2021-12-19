@@ -6,7 +6,7 @@ import IngredientsMealInProgress from './IngredientsMealInProgress';
 
 function MealInProgress({ mealInProgress }) {
   const [numberOfIngredients, setNumberOfIngredients] = useState(0);
-  const { btnFinalizeRecipe } = useContext(AppContext);
+  const { btnFinalizeRecipe, incrementDoneRecipes } = useContext(AppContext);
   const history = useHistory();
   useEffect(() => {
     if (mealInProgress) {
@@ -29,7 +29,7 @@ function MealInProgress({ mealInProgress }) {
 
           <button
             type="button"
-            testid="favorite-btn"
+            data-testid="favorite-btn"
           >
             Favoritar Receita
           </button>
@@ -64,7 +64,30 @@ function MealInProgress({ mealInProgress }) {
         type="button"
         id="finalize"
         disabled={ btnFinalizeRecipe }
-        onClick={ () => history.push('/receitas-feitas') }
+        onClick={ () => {
+          const {
+            idMeal,
+            strMealThumb,
+            strMeal,
+            strArea,
+            strCategory,
+            strTags,
+          } = mealInProgress[0];
+          const data = Date();
+          incrementDoneRecipes({
+            id: idMeal,
+            type: 'meal',
+            area: strArea,
+            category: strCategory,
+            alcoholicOrNot: '',
+            name: strMeal,
+            image: strMealThumb,
+            doneDate: data,
+            tags: strTags,
+          });
+          history.push('/receitas-feitas');
+        } }
+        data-testid="finish-recipe-btn"
       >
         Finalizar Receita
       </button>
