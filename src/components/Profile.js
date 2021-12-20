@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 function Profile() {
-  const [email, setEmail] = useState('');
+  const [email1, setEmail] = useState('');
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    setEmail(user.email);
+    if (user) {
+      const { email } = user;
+      setEmail(email);
+    }
   }, []);
   const history = useHistory();
   return (
     <section>
-      <h1 data-testid="profile-email">{email}</h1>
+      <h1 data-testid="profile-email">{email1}</h1>
       <button
         type="button"
         onClick={ () => history.push('/receitas-feitas') }

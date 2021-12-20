@@ -12,12 +12,13 @@ import AppContext from '../context/AppContext';
 
 function RecipeDetails({
   photo, title, recipeCategory, ingredients, measures,
-  instructions, video, id }) {
-  const { doneRecipes } = useContext(AppContext);
+  instructions, video, id, type }) {
+  const { updateProgress } = useContext(AppContext);
 
   const [ingredientsWithMeasures, setIngredientsWithMeasures] = useState(false);
 
   const [showButton, setShowButton] = useState(true);
+  const [showContinueButton, setShowContinueButton] = useState(false);
 
   const history = useHistory();
 
@@ -27,9 +28,31 @@ function RecipeDetails({
   const [meals, setMeals] = useState(false);
 
   function verifyIfIsDone() {
-    if (doneRecipes && id) {
-      const isDone = doneRecipes.some((recipe) => recipe.teste === id);
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (id && doneRecipesStorage) {
+      const isDone = doneRecipesStorage.some((recipe) => recipe.id === id);
       setShowButton(!isDone);
+    }
+  }
+
+  function verifyIfIsInProgress() {
+    const inProgressRecipeStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (inProgressRecipeStorage && type === 'cocktails') {
+      const { cocktails } = inProgressRecipeStorage;
+      const recipeInProgress = Object.keys(cocktails).some((i) => i === id);
+      console.log(recipeInProgress);
+      if (recipeInProgress) {
+        setShowContinueButton(true);
+      }
+    }
+    if (inProgressRecipeStorage && type === 'meals') {
+      const mealsStorage = inProgressRecipeStorage.meals;
+      console.log(mealsStorage);
+      const recipeInProgress = Object.keys(mealsStorage).some((i) => i === id);
+      console.log(recipeInProgress);
+      if (recipeInProgress) {
+        setShowContinueButton(true);
+      }
     }
   }
 
@@ -40,6 +63,7 @@ function RecipeDetails({
     }
     getMeals();
     verifyIfIsDone();
+    verifyIfIsInProgress();
   }, []);
 
   const MAX_DRINKS_RENDER = 6;
@@ -69,8 +93,26 @@ function RecipeDetails({
     }
   }, [ingredients]);
 
+  function handleClick() {
+    updateProgress('', type);
+    return (video ? history.push(`/comidas/${id}/in-progress`)
+      : history.push(`/bebidas/${id}/in-progress`));
+  }
+
   function renderButton() {
-    if (showButton) {
+    if (showButton && !showContinueButton) {
+      return (
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-recipe-btn"
+          onClick={ () => handleClick() }
+        >
+          Iniciar Receita
+        </button>
+      );
+    }
+    if (showContinueButton) {
       return (
         <button
           type="button"
@@ -79,7 +121,7 @@ function RecipeDetails({
           onClick={ () => (video ? history.push(`/comidas/${id}/in-progress`)
             : history.push(`/bebidas/${id}/in-progress`)) }
         >
-          Iniciar Receita
+          Continuar Receita
         </button>
       );
     }
@@ -185,6 +227,7 @@ function RecipeDetails({
 }
 
 RecipeDetails.propTypes = {
+  type: PropTypes.string.isRequired,
   photo: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   recipeCategory: PropTypes.string.isRequired,

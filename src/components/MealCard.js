@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import AppContext from '../context/AppContext';
 
 function MealCard({ index, meal }) {
   const { idMeal } = meal;
+  const { setCurrentMealId } = useContext(AppContext);
   const history = useHistory();
   const link = `/comidas/${idMeal}`;
   return (
     <button
       type="button"
       data-testid={ `${index}-recipe-card` }
-      onClick={ () => history.push(link) }
+      onClick={ () => {
+        setCurrentMealId(idMeal);
+        history.push(link);
+      } }
     >
       <div>
         <img
