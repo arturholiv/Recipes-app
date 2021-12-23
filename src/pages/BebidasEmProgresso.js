@@ -13,13 +13,11 @@ function BebidasEmProgresso() {
       const response = await requestDrinkById(id);
       setDrinkInProgress(response);
       setCurrentDrinkId(id);
-      console.log(response);
     }
     getApi();
-  }, []);
+  }, [id, setCurrentDrinkId]);
   return (
     <div>
-      {/* <h1>{id}</h1> */}
       <DrinkInProgress drinkInProgress={ drinkInProgress } />
     </div>
   );

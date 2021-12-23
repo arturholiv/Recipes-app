@@ -107,6 +107,7 @@ export default function DetalhesComidas() {
         instructions={ details.strInstructions }
         video={ details.strYoutube }
         type="meals"
+        completeObj={ details }
       />
     </div>
   );

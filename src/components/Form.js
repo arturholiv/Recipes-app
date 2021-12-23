@@ -12,6 +12,7 @@ function Form() {
     localStorage.setItem('mealsToken', JSON.stringify(1));
     localStorage.setItem('cocktailsToken', JSON.stringify(1));
     localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     setRedirect(true);
   };
 
