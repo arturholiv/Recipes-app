@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import { Clipboard } from 'clipboard'
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
@@ -9,16 +7,24 @@ import { requestCocktailDbApi } from '../services/TheCockTailDbApi';
 import RecomendationMealCard from './RecomendationMealCard';
 import RecomendationDrinkCard from './RecomendationDrinkCard';
 import AppContext from '../context/AppContext';
+import {
+  verifyIfIsDone,
+  verifyIfIsInProgress,
+  renderButton,
+  renderFavoriteStatus,
+} from '../helpers';
 
 function RecipeDetails({
   photo, title, recipeCategory, ingredients, measures,
-  instructions, video, id, type }) {
-  const { updateProgress } = useContext(AppContext);
+  instructions, video, id, type, completeObj }) {
+  const { updateProgress, updateFavoriteRecipes } = useContext(AppContext);
 
   const [ingredientsWithMeasures, setIngredientsWithMeasures] = useState(false);
 
   const [showButton, setShowButton] = useState(true);
   const [showContinueButton, setShowContinueButton] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [drinks, setDrinks] = useState(false);
 
   const history = useHistory();
 
@@ -26,49 +32,6 @@ function RecipeDetails({
   const arrayIngredientsWithMeasures = [];
 
   const [meals, setMeals] = useState(false);
-
-  function verifyIfIsDone() {
-    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (id && doneRecipesStorage) {
-      const isDone = doneRecipesStorage.some((recipe) => recipe.id === id);
-      setShowButton(!isDone);
-    }
-  }
-
-  function verifyIfIsInProgress() {
-    const inProgressRecipeStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (inProgressRecipeStorage && type === 'cocktails') {
-      const { cocktails } = inProgressRecipeStorage;
-      const recipeInProgress = Object.keys(cocktails).some((i) => i === id);
-      console.log(recipeInProgress);
-      if (recipeInProgress) {
-        setShowContinueButton(true);
-      }
-    }
-    if (inProgressRecipeStorage && type === 'meals') {
-      const mealsStorage = inProgressRecipeStorage.meals;
-      console.log(mealsStorage);
-      const recipeInProgress = Object.keys(mealsStorage).some((i) => i === id);
-      console.log(recipeInProgress);
-      if (recipeInProgress) {
-        setShowContinueButton(true);
-      }
-    }
-  }
-
-  useEffect(() => {
-    async function getMeals() {
-      const mealsResult = await requestMealDbApi();
-      setMeals(mealsResult);
-    }
-    getMeals();
-    verifyIfIsDone();
-    verifyIfIsInProgress();
-  }, []);
-
-  const MAX_DRINKS_RENDER = 6;
-
-  const [drinks, setDrinks] = useState(false);
 
   function agroupMeasuresAndIngredients() {
     if (ingredients.length > 1) {
@@ -83,6 +46,11 @@ function RecipeDetails({
   }
 
   useEffect(() => {
+    async function getMeals() {
+      const mealsResult = await requestMealDbApi();
+      setMeals(mealsResult);
+    }
+    getMeals();
     async function getDrinks() {
       const drinksResult = await requestCocktailDbApi();
       setDrinks(drinksResult);
@@ -91,55 +59,16 @@ function RecipeDetails({
     if (ingredients.length > 0) {
       agroupMeasuresAndIngredients();
     }
+    verifyIfIsDone(setShowButton, id);
+    verifyIfIsInProgress(type, id, setShowContinueButton);
+    setIsFavorite(false);
   }, [ingredients]);
 
-  function handleClick() {
-    updateProgress('', type);
-    return (video ? history.push(`/comidas/${id}/in-progress`)
-      : history.push(`/bebidas/${id}/in-progress`));
-  }
-
-  function renderButton() {
-    if (showButton && !showContinueButton) {
-      return (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="start-recipe-btn"
-          onClick={ () => handleClick() }
-        >
-          Iniciar Receita
-        </button>
-      );
-    }
-    if (showContinueButton) {
-      return (
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="start-recipe-btn"
-          onClick={ () => (video ? history.push(`/comidas/${id}/in-progress`)
-            : history.push(`/bebidas/${id}/in-progress`)) }
-        >
-          Continuar Receita
-        </button>
-      );
-    }
-    return undefined;
-  }
+  const MAX_DRINKS_RENDER = 6;
 
   const [copied, setCopied] = useState(false);
 
   function copy() {
-    const el = document.createElement('input');
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    // const clipboard = new Clipboard('share');
-    // clipboard.on('success', () => {
-    // });
     setCopied(true);
   }
 
@@ -151,23 +80,21 @@ function RecipeDetails({
       <h1 data-testid="recipe-title">
         {title}
       </h1>
-      <CopyToClipboard text={ window.location.href }>
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ copy }
-          src={ shareIcon }
-          className="share"
-        >
-          <img src={ shareIcon } alt="shareIcon" />
-        </button>
-      </CopyToClipboard>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ copy }
+        src={ shareIcon }
+        className="share"
+      >
+        <img src={ shareIcon } alt="shareIcon" />
+      </button>
 
       <p>
         {!copied ? 'Copy link' : 'Link copiado!'}
       </p>
 
-      <button type="button" data-testid="favorite-btn"> favorite </button>
+      {renderFavoriteStatus(isFavorite, updateFavoriteRecipes, completeObj, type)}
 
       <h3 data-testid="recipe-category">
         Category:
@@ -220,21 +147,27 @@ function RecipeDetails({
             />))}
       </div>
       {
-        renderButton()
+        renderButton(showButton, showContinueButton, {
+          history,
+          video,
+          id,
+          type,
+        }, updateProgress)
       }
     </div>
   );
 }
 
 RecipeDetails.propTypes = {
-  type: PropTypes.string.isRequired,
-  photo: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  recipeCategory: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf.isRequired, // se pá é array
-  measures: PropTypes.arrayOf.isRequired,
-  id: PropTypes.number.isRequired,
+  completeObj: PropTypes.arrayOf(PropTypes.any).isRequired,
+  id: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.any).isRequired, // se pá é array
   instructions: PropTypes.string.isRequired,
+  measures: PropTypes.arrayOf(PropTypes.any).isRequired,
+  photo: PropTypes.string.isRequired,
+  recipeCategory: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   video: PropTypes.string.isRequired,
 };
 

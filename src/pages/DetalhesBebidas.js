@@ -83,6 +83,7 @@ export default function DetalhesBebidas() {
         instructions={ details.strInstructions }
         video={ false }
         type="cocktails"
+        completeObj={ details }
       />
     </div>
   );

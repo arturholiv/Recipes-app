@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [currentDrinkId, setCurrentDrinkId] = useState();
   const [btnFinalizeRecipe, setBtnFinalizeRecipe] = useState(true);
   const [progress, setProgress] = useState([]);
+  const [favoriterecipes, setFavoriteRecipes] = useState([]);
   const [inProgressRecipes, setInProgressRecipes] = useState({
     cocktails: {
       id: [],
@@ -70,6 +71,27 @@ function Provider({ children }) {
     }
   }
 
+  function updateFavoriteRecipes(newRecipe) {
+    const currentFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const recipeAlreadyExist = currentFavoriteRecipes
+      .some((recipe) => recipe.id === newRecipe.id);
+    if (recipeAlreadyExist) {
+      const favoriteRecipesUpdated = currentFavoriteRecipes
+        .filter((recipe) => recipe.id !== newRecipe.id);
+      console.log(favoriteRecipesUpdated);
+      console.log(newRecipe.id);
+      setFavoriteRecipes(favoriteRecipesUpdated);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesUpdated));
+    } else {
+      setFavoriteRecipes([
+        ...favoriterecipes,
+        newRecipe,
+      ]);
+      localStorage.setItem('favoriteRecipes',
+        JSON.stringify([...favoriterecipes, newRecipe]));
+    }
+  }
+
   function incrementDoneRecipes(recipe) {
     setDoneRecipes([...doneRecipes, recipe]);
     localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, recipe]));
@@ -90,6 +112,7 @@ function Provider({ children }) {
     updateProgress,
     currentDrinkId,
     currentMealId,
+    updateFavoriteRecipes,
   };
 
   return (

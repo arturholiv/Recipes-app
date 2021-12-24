@@ -9,21 +9,18 @@ import AppContext from '../context/AppContext';
 function ComidasEmProgresso() {
   const [mealInProgress, setMealInProgress] = useState(false);
   const { setCurrentMealId } = useContext(AppContext);
-  // const ID = 52977;
   const { id } = useParams();
   useEffect(() => {
     async function getApi() {
       const response = await requestMealById(id);
       setMealInProgress(response);
       setCurrentMealId(id);
-      // console.log(response);
     }
     getApi();
   }, [setCurrentMealId, id]);
 
   return (
     <div>
-      {/* <h1>{id}</h1> */}
       <MealInProgress mealInProgress={ mealInProgress } />
     </div>
   );
